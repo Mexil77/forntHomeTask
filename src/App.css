@@ -1,42 +1,64 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.TaskHome{
+  display: flex;
+  margin: 0 2rem;
+  height: auto;
+  background-color: blueviolet;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.TaskHome_StatusBar {
+  width: 30%;
+  padding: 1rem;
+  background-color: #3a015c;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.TaskHome_Body {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #457b9d;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.TaskHome_Body_Tasks {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
-.card {
-  padding: 2em;
+.TaskHome_Body_Tasks_Task {
+  display: flex;
+  flex-direction: column;
+  min-width: 15rem;
+  width: 20%;
+  height: 10rem;
+  padding: 1rem;
+  border-radius: 30px;
+  margin: 1rem;
+  background-color: #e9c46a;
+  color: #3a015c;
+  font-weight: bold;
 }
 
-.read-the-docs {
-  color: #888;
+.TaskHome_Body_Tasks_Task-Status {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  align-self: flex-end;
+}
+
+.TaskHome_Body_Tasks_Task-StatusDONE {
+  background-color: green;
+}
+
+.TaskHome_Body_Tasks_Task-StatusPENDING {
+  background-color: yellow;
+}
+
+.TaskHome_Body_Tasks_Task-StatusEXPIRED {
+  background-color: red;
+}
+
+.TaskHome_Body_AddTask{
+  position: fixed;
+  bottom: 1rem;
+  right: 3rem;
 }
