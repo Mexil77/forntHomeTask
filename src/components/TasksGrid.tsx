@@ -4,11 +4,36 @@ import { TaskStatus } from "../enums";
 import { Task } from "../types";
 
 const mockData = [
-  { name: "Lavar ropa", days: 3, status: TaskStatus.PENDING },
-  { name: "Lavar trastes", days: 5, status: TaskStatus.PENDING },
-  { name: "Lavar coche", days: -1, status: TaskStatus.EXPIRED },
-  { name: "Lavar tenis", days: 0, status: TaskStatus.DONE },
-  { name: "Lavar ventanas", days: -2, status: TaskStatus.EXPIRED },
+  {
+    name: "Lavar ropa",
+    recurrent: { active: true, days: 3 },
+    date: new Date(),
+    status: TaskStatus.PENDING,
+  },
+  {
+    name: "Lavar trastes",
+    recurrent: { active: true, days: 5 },
+    date: new Date(),
+    status: TaskStatus.PENDING,
+  },
+  {
+    name: "Lavar coche",
+    recurrent: { active: true, days: -1 },
+    date: new Date(),
+    status: TaskStatus.EXPIRED,
+  },
+  {
+    name: "Lavar tenis",
+    recurrent: { active: true, days: 0 },
+    date: new Date(),
+    status: TaskStatus.DONE,
+  },
+  {
+    name: "Lavar ventanas",
+    recurrent: { active: true, days: -2 },
+    date: new Date(),
+    status: TaskStatus.EXPIRED,
+  },
 ];
 
 export default function TasksGrid(): ReactElement {

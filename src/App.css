@@ -62,3 +62,8 @@
   bottom: 1rem;
   right: 3rem;
 }
+
+.ModalTask{
+  color: #3a015c;
+  font-weight: bold;
+}

@@ -12,7 +12,7 @@ export default function TaskCard({ task }: TaskCardProps): ReactElement {
         className={`TaskHome_Body_Tasks_Task-Status TaskHome_Body_Tasks_Task-Status${task.status}`}
       ></div>
       <h3>{task.name}</h3>
-      <p>{task.days} dias</p>
+      <p>{task.recurrent.days} dias</p>
     </div>
   );
 }
