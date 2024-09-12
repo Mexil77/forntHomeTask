@@ -1,23 +1,22 @@
 import { format } from "@formkit/tempo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Form, InputGroup, Modal } from "react-bootstrap";
+import { Task } from "../types";
+import { TaskStatus } from "../enums";
 
 type ModalTaskProps = {
-  name: string;
+  task: Task;
   show: boolean;
-  date: Date;
   setShow: (show: boolean) => void;
-  recurrent: { active: boolean; days: number };
 };
 
-export default function ModalTaskform({
-  name,
-  show,
-  date,
-  setShow,
-  recurrent,
-}: ModalTaskProps) {
-  const [modalForm, setModalForm] = useState({ name, date, recurrent });
+export default function ModalTaskform({ task, show, setShow }: ModalTaskProps) {
+  const [modalForm, setModalForm] = useState<Task>(task);
+
+  useEffect(() => {
+    setModalForm(task);
+  }, [task]);
+
   return (
     <Modal
       className="ModalTask"
@@ -25,7 +24,11 @@ export default function ModalTaskform({
       onHide={() => setShow(false)}
       closebutton="true"
     >
-      <Modal.Header closeButton>Nueva Tarea</Modal.Header>
+      {task._id ? (
+        <Modal.Header>{`${task.name} #${task._id}`}</Modal.Header>
+      ) : (
+        <Modal.Header>Nueva tarea</Modal.Header>
+      )}
       <Modal.Body>
         <Form>
           <Form.Group className="mb-3">
@@ -85,12 +88,34 @@ export default function ModalTaskform({
               </>
             )}
           </Form.Group>
+          <div className="mb-3">
+            <Form.Check
+              type="radio"
+              label="Hecha"
+              name="taskStatus"
+              value={TaskStatus.DONE}
+              checked={modalForm.status === TaskStatus.DONE}
+            />
+            <Form.Check
+              type="radio"
+              label="Pendiente"
+              name="taskStatus"
+              value={TaskStatus.PENDING}
+              checked={modalForm.status === TaskStatus.PENDING}
+            />
+          </div>
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="success" onClick={() => setShow(false)}>
-          Guardar
-        </Button>
+        {task._id ? (
+          <Button variant="primary" onClick={() => setShow(false)}>
+            Guardar
+          </Button>
+        ) : (
+          <Button variant="success" onClick={() => setShow(false)}>
+            Crear
+          </Button>
+        )}
       </Modal.Footer>
     </Modal>
   );

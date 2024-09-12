@@ -6,6 +6,7 @@ export interface Recurrent {
 }
 
 export interface Task {
+  _id: number | undefined;
   name: string;
   status: TaskStatus.DONE | TaskStatus.PENDING | TaskStatus.EXPIRED;
   date: Date;
