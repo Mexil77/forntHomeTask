@@ -1,28 +1,18 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement } from "react";
 import TaskCard from "./TaskCard";
 import { Task } from "../types";
-import axios from "axios";
 
 type TaskGridProps = {
   setModalTask: (task: Task) => void;
   setShowModal: (active: boolean) => void;
+  resData: Task[];
 };
 
 export default function TasksGrid({
   setModalTask,
   setShowModal,
+  resData,
 }: TaskGridProps): ReactElement {
-  const [resData, setResData] = useState<Task[]>([]);
-
-  const fetchData = async () => {
-    const res = await axios.get("http://localhost:4000/task");
-    setResData(res.data);
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   return (
     <div className="TaskHome_Body_Tasks">
       {resData.map((data: Task, idx: number) => (

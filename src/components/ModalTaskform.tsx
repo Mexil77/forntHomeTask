@@ -3,19 +3,78 @@ import { useEffect, useState } from "react";
 import { Button, Form, InputGroup, Modal } from "react-bootstrap";
 import { Task } from "../types";
 import { TaskStatus } from "../enums";
+import axios from "axios";
+
+const clearTask = {
+  name: "",
+  dateToDone: new Date(),
+  dateDone: new Date(),
+  status: TaskStatus.PENDING,
+  recurrent: { active: false, days: 0 },
+};
 
 type ModalTaskProps = {
   task: Task;
   show: boolean;
   setShow: (show: boolean) => void;
+  fetchData: () => Promise<void>;
 };
 
-export default function ModalTaskform({ task, show, setShow }: ModalTaskProps) {
+export default function ModalTaskform({
+  task,
+  show,
+  setShow,
+  fetchData,
+}: ModalTaskProps) {
   const [modalForm, setModalForm] = useState<Task>(task);
 
   useEffect(() => {
     setModalForm(task);
   }, [task]);
+
+  const handlerSave = async () => {
+    try {
+      const res = await axios.post("http://localhost:4000/task", modalForm);
+      if (res) {
+        setShow(false);
+        fetchData();
+        setModalForm(clearTask);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handlerUpdate = async () => {
+    try {
+      const res = await axios.put(
+        `http://localhost:4000/task/${modalForm._id}`,
+        modalForm
+      );
+      if (res) {
+        setShow(false);
+        fetchData();
+        setModalForm(clearTask);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handlerDelete = async () => {
+    try {
+      const res = await axios.delete(
+        `http://localhost:4000/task/${modalForm._id}`
+      );
+      if (res) {
+        setShow(false);
+        fetchData();
+        setModalForm(clearTask);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Modal
@@ -28,7 +87,7 @@ export default function ModalTaskform({ task, show, setShow }: ModalTaskProps) {
         <Modal.Header>
           <div className="ModalTask_Header">
             <h2>{`${task.name}`}</h2>
-            <p>{`#${task._id}`}</p>
+            <p>{`#${task.showId}`}</p>
           </div>
         </Modal.Header>
       ) : (
@@ -107,6 +166,12 @@ export default function ModalTaskform({ task, show, setShow }: ModalTaskProps) {
               name="taskStatus"
               value={TaskStatus.DONE}
               checked={modalForm.status === TaskStatus.DONE}
+              onChange={() =>
+                setModalForm({
+                  ...modalForm,
+                  status: TaskStatus.DONE,
+                })
+              }
             />
             <Form.Check
               type="radio"
@@ -114,17 +179,28 @@ export default function ModalTaskform({ task, show, setShow }: ModalTaskProps) {
               name="taskStatus"
               value={TaskStatus.PENDING}
               checked={modalForm.status === TaskStatus.PENDING}
+              onChange={() =>
+                setModalForm({
+                  ...modalForm,
+                  status: TaskStatus.PENDING,
+                })
+              }
             />
           </div>
         </Form>
       </Modal.Body>
       <Modal.Footer>
+        {task._id && (
+          <Button variant="danger" onClick={handlerDelete}>
+            Borrar
+          </Button>
+        )}
         {task._id ? (
-          <Button variant="primary" onClick={() => setShow(false)}>
+          <Button variant="primary" onClick={handlerUpdate}>
             Guardar
           </Button>
         ) : (
-          <Button variant="success" onClick={() => setShow(false)}>
+          <Button variant="success" onClick={handlerSave}>
             Crear
           </Button>
         )}
