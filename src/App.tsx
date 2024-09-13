@@ -10,7 +10,9 @@ import { Task } from "./types";
 const clearTask = {
   _id: undefined,
   name: "",
-  date: new Date(),
+  dateToDone: new Date(),
+  dateDone: new Date(),
+  daysToDone: 0,
   status: TaskStatus.PENDING,
   recurrent: { active: false, days: 0 },
 };

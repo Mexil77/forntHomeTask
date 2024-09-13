@@ -25,9 +25,18 @@ export default function ModalTaskform({ task, show, setShow }: ModalTaskProps) {
       closebutton="true"
     >
       {task._id ? (
-        <Modal.Header>{`${task.name} #${task._id}`}</Modal.Header>
+        <Modal.Header>
+          <div className="ModalTask_Header">
+            <h2>{`${task.name}`}</h2>
+            <p>{`#${task._id}`}</p>
+          </div>
+        </Modal.Header>
       ) : (
-        <Modal.Header>Nueva tarea</Modal.Header>
+        <Modal.Header>
+          <div className="ModalTask_Header">
+            <h1>Nueva tarea</h1>
+          </div>
+        </Modal.Header>
       )}
       <Modal.Body>
         <Form>
@@ -46,9 +55,12 @@ export default function ModalTaskform({ task, show, setShow }: ModalTaskProps) {
             <Form.Label>Cuando debo hacerlo?</Form.Label>
             <Form.Control
               type="date"
-              value={format(modalForm.date, "YYYY-MM-DD")}
+              value={format(modalForm.dateToDone, "YYYY-MM-DD")}
               onChange={(e) =>
-                setModalForm({ ...modalForm, date: new Date(e.target.value) })
+                setModalForm({
+                  ...modalForm,
+                  dateToDone: new Date(e.target.value),
+                })
               }
             />
           </Form.Group>

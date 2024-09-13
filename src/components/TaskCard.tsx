@@ -16,7 +16,7 @@ export default function TaskCard({
         className={`TaskHome_Body_Tasks_Task-Status TaskHome_Body_Tasks_Task-Status${task.status}`}
       ></div>
       <h3>{task.name}</h3>
-      <p>{task.recurrent.days} dias</p>
+      <p>{task.daysToDone} dias</p>
     </div>
   );
 }

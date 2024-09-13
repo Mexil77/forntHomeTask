@@ -67,3 +67,9 @@
   color: #3a015c;
   font-weight: bold;
 }
+
+.ModalTask_Header{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
