@@ -1,55 +1,7 @@
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import TaskCard from "./TaskCard";
-import { TaskStatus } from "../enums";
 import { Task } from "../types";
-
-const mockData = [
-  {
-    _id: 1,
-    name: "Lavar ropa",
-    recurrent: { active: true, days: 3 },
-    dateToDone: new Date(),
-    dateDone: new Date(),
-    daysToDone: 3,
-    status: TaskStatus.PENDING,
-  },
-  {
-    _id: 2,
-    name: "Lavar trastes",
-    recurrent: { active: false, days: 0 },
-    dateToDone: new Date(),
-    dateDone: new Date(),
-    daysToDone: 5,
-    status: TaskStatus.PENDING,
-  },
-  {
-    _id: 3,
-    name: "Lavar coche",
-    recurrent: { active: false, days: 0 },
-    dateToDone: new Date(),
-    dateDone: new Date(),
-    daysToDone: -1,
-    status: TaskStatus.EXPIRED,
-  },
-  {
-    _id: 4,
-    name: "Lavar tenis",
-    recurrent: { active: true, days: 7 },
-    dateToDone: new Date(),
-    dateDone: new Date(),
-    daysToDone: 0,
-    status: TaskStatus.DONE,
-  },
-  {
-    _id: 5,
-    name: "Lavar ventanas",
-    recurrent: { active: true, days: 3 },
-    dateToDone: new Date(),
-    dateDone: new Date(),
-    daysToDone: -2,
-    status: TaskStatus.EXPIRED,
-  },
-];
+import axios from "axios";
 
 type TaskGridProps = {
   setModalTask: (task: Task) => void;
@@ -60,9 +12,20 @@ export default function TasksGrid({
   setModalTask,
   setShowModal,
 }: TaskGridProps): ReactElement {
+  const [resData, setResData] = useState<Task[]>([]);
+
+  const fetchData = async () => {
+    const res = await axios.get("http://localhost:4000/task");
+    setResData(res.data);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <div className="TaskHome_Body_Tasks">
-      {mockData.map((data: Task, idx: number) => (
+      {resData.map((data: Task, idx: number) => (
         <TaskCard
           key={idx}
           task={data}
